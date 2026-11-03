@@ -7,33 +7,26 @@
 <style>
 :root{
   box-sizing:border-box;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
   --bg:#f6f1e4; --card:#fffdf6; --ink:#1d2a22; --muted:#5d6b61; --line:#d9d2bd;
-  --green:#14301f; --green-ink:#f6f1e4; --gold:#e8b900; --red:#a8281c; --chip:#ebe4cf;
+  --green:#14301f; --green-ink:#f6f1e4; --gold:#e8b900; --red:#a8281c; --chip:#ebe4cf; --ok:#1f7a45;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
+  :root{
     --bg:#0f1a13; --card:#18271d; --ink:#f1ecdc; --muted:#a3b0a5; --line:#2e4234;
-    --green:#0a140e; --green-ink:#f1ecdc; --gold:#f2c500; --red:#ff7b6b; --chip:#223529;
+    --green:#0a140e; --green-ink:#f1ecdc; --gold:#f2c500; --red:#ff7b6b; --chip:#223529; --ok:#5fd18b;
     color-scheme:dark;
   }
 }
-:root[data-theme="dark"]{
-  --bg:#0f1a13; --card:#18271d; --ink:#f1ecdc; --muted:#a3b0a5; --line:#2e4234;
-  --green:#0a140e; --green-ink:#f1ecdc; --gold:#f2c500; --red:#ff7b6b; --chip:#223529;
-  color-scheme:dark;
-}
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 112px);height:auto}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 112px)}
 body{margin:0;background:var(--bg);color:var(--ink);
   font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Bengali","Noto Sans",sans-serif;
   -webkit-text-size-adjust:100%}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--green);z-index:30}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+[hidden]{display:none!important}
+button{font:inherit;color:inherit}
 
-header{background:var(--green);color:var(--green-ink);padding:22px 18px 20px;text-align:center}
+header{background:var(--green);color:var(--green-ink);padding:calc(22px + env(safe-area-inset-top,0px)) 18px 20px;text-align:center}
 .mark{display:inline-grid;place-items:center;width:64px;height:64px;background:var(--gold);color:#14301f;
   transform:rotate(45deg);border-radius:8px;margin:6px 0 18px}
 .mark span{transform:rotate(-45deg);font:800 26px/1 Georgia,serif;letter-spacing:-1px}
@@ -46,22 +39,25 @@ h1{margin:0;font:800 34px/1.05 "Arial Narrow",Impact,system-ui,sans-serif;letter
 .call{background:var(--gold);color:#14301f}
 .map{border:1.5px solid var(--gold);color:var(--gold)}
 
-.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.today{max-width:640px;margin:14px auto 0;padding:0 14px}
+.notice{background:var(--gold);color:#14301f;border-radius:12px;padding:10px 14px;font-weight:700}
+.upd{margin:8px 2px 0;font-size:13px;color:var(--muted)}
+
+.bar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-top:8px}
 .search{padding:10px 14px 6px}
-.search input{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:16px}
-.search input:focus,.chips a:focus-visible,.actions a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.search input,.fld{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:16px}
+input:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 .chips{display:flex;gap:8px;overflow-x:auto;padding:6px 14px 10px;scrollbar-width:none}
 .chips::-webkit-scrollbar{display:none}
-.chips a{flex:none;padding:7px 14px;border-radius:99px;background:var(--chip);color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap}
-.chips a.on{background:var(--green);color:var(--gold)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chips a.on{background:var(--gold);color:#14301f}}
+.chips button{flex:none;padding:7px 14px;border:0;border-radius:99px;background:var(--chip);font-size:14px;font-weight:600;white-space:nowrap;cursor:pointer}
+.chips button.on{background:var(--green);color:var(--gold)}
+@media (prefers-color-scheme:dark){.chips button.on{background:var(--gold);color:#14301f}}
 
 main{padding:6px 14px 40px;max-width:640px;margin:0 auto}
 section{margin-top:22px}
 .head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 8px}
 h2{margin:0;font-size:22px;font-weight:800}
 .range{color:var(--red);font-weight:800;font-size:15px;white-space:nowrap}
-.note{margin:0 0 8px;font-size:13.5px;color:var(--muted)}
 .when{display:inline-block;margin:0 0 8px;padding:2px 10px;border-radius:6px;background:var(--gold);color:#14301f;font-size:13px;font-weight:700}
 .list{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 14px}
 .item{display:flex;align-items:baseline;gap:8px;padding:11px 0}
@@ -72,41 +68,62 @@ h2{margin:0;font-size:22px;font-weight:800}
 .price{flex:none;font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
 .star{color:var(--gold);margin-right:4px}
 .sig .list{border-color:var(--gold);border-width:1.5px}
-.empty{display:none;text-align:center;color:var(--muted);padding:40px 10px}
-footer{text-align:center;padding:24px 18px 34px;background:var(--green);color:var(--green-ink);font-size:14px}
+.gone .name{text-decoration:line-through;color:var(--muted)}
+.gone .price{color:var(--muted);font-weight:600;font-size:13px}
+.empty{text-align:center;color:var(--muted);padding:40px 10px}
+footer{text-align:center;padding:24px 18px calc(34px + env(safe-area-inset-bottom,0px));background:var(--green);color:var(--green-ink);font-size:14px}
 footer b{display:block;color:var(--gold);font-size:18px;margin-bottom:4px}
 footer a{color:var(--gold)}
+.staff{display:block;margin-top:14px;font-size:12px;opacity:.6}
+
+.atop{background:var(--green);color:var(--green-ink);padding:calc(18px + env(safe-area-inset-top,0px)) 16px 16px}
+.atop h1{font-size:24px;font-family:system-ui,sans-serif}
+.atop p{margin:4px 0 0;font-size:14px;opacity:.85}
+.alink{display:inline-block;margin-top:10px;background:none;border:1.5px solid var(--gold);color:var(--gold);border-radius:10px;padding:6px 12px;font-weight:700;cursor:pointer}
+.amain{max-width:640px;margin:0 auto;padding:14px 14px 130px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px}
+.panel label.t{display:block;font-weight:700;margin-bottom:6px}
+.radio{display:flex;gap:10px;align-items:flex-start;padding:6px 0}
+.radio input{margin-top:5px;width:18px;height:18px;accent-color:var(--green)}
+.count{font-weight:800;font-size:18px;margin:2px 0 12px}
+.sechead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:20px 0 8px}
+.sechead h2{font-size:18px}
+.mini{display:flex;gap:6px}
+.mini button{padding:5px 10px;border-radius:8px;border:1.5px solid var(--line);background:var(--card);font-size:13px;font-weight:700;cursor:pointer}
+.row{display:flex;align-items:center;gap:10px;padding:10px 0;cursor:pointer}
+.row+.row{border-top:1px solid var(--line)}
+.row .n{flex:1;font-weight:600}
+.row .n small{color:var(--muted);font-weight:400;margin-left:6px}
+.row.off .n{color:var(--muted);text-decoration:line-through}
+.sw{position:relative;flex:none;width:52px;height:30px}
+.sw input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+.sw i{position:absolute;inset:0;border-radius:99px;background:var(--line);transition:background .15s}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .15s}
+.sw input:checked+i{background:var(--ok)}
+.sw input:checked+i::after{transform:translateX(22px)}
+.sw input:focus-visible+i{outline:3px solid var(--gold);outline-offset:2px}
+.sbar{position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--bg);border-top:1px solid var(--line);
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom,0px))}
+.sbar div{max-width:640px;margin:0 auto}
+.save{width:100%;padding:14px;border:0;border-radius:12px;background:var(--green);color:var(--gold);font-weight:800;font-size:17px;cursor:pointer}
+@media (prefers-color-scheme:dark){.save{background:var(--gold);color:#14301f}}
+.save:disabled{opacity:.45;cursor:default}
+.status{min-height:20px;margin:0 0 6px;text-align:center;font-size:14px;color:var(--muted)}
+.status.ok{color:var(--ok);font-weight:700}.status.err{color:var(--red);font-weight:700}
+.lock{max-width:420px;margin:40px auto;padding:0 20px;text-align:center}
+.lock .fld{margin:12px 0;text-align:center;letter-spacing:4px}
+.lock .alink{color:var(--ink);border-color:var(--ink)}
+.lock .go{background:var(--green);color:var(--gold);border-color:var(--green)}
 </style>
 </head>
 <body>
-<header>
-  <div class="mark"><span>JF</span></div>
-  <h1>JAHAN FOODS</h1>
-  <p class="bn">চট্ট মেট্রো</p>
-  <p class="tag">ঐতিহ্যবাহী বাংলাদেশী চাটগাঁইয়া মজার খাবার সম্ভার</p>
-  <span class="halal">Halal</span>
-  <div class="actions">
-    <a class="call" href="tel:+61406867607">Call 0406 867 607</a>
-    <a class="map" href="https://www.google.com/maps/search/?api=1&query=3%2F60A+The+Boulevarde+Lakemba+NSW+2195" target="_blank" rel="noopener">Get directions</a>
-  </div>
-</header>
-
-<div class="bar">
-  <div class="search"><input id="q" type="search" placeholder="Search the menu" aria-label="Search the menu" autocomplete="off"></div>
-  <nav class="chips" id="chips" aria-label="Menu categories"></nav>
-</div>
-
-<main id="menu"></main>
-<p class="empty" id="empty">No dishes match your search.</p>
-
-<footer>
-  <b>Now open in Lakemba</b>
-  All kinds of Bengali food, especially Chittagonian.<br>
-  3/60A The Boulevarde, Lakemba NSW 2195<br>
-  <a href="tel:+61406867607">0406 867 607</a>
-</footer>
-
+<div id="app"></div>
 <script>
+/* ===== Settings you can change ===== */
+const ADMIN_PIN = "1234";              // change this PIN
+const STORAGE_KEY = "jahan-foods-availability";
+
+/* ===== Menu data: edit names and prices here ===== */
 const MENU = [
   {id:"curry", title:"Curry", range:"$8–$10", items:[
     ["Beef curry",10],["Fish curry",10],["Chicken curry",10],["Vegetables curry",8]]},
@@ -128,55 +145,215 @@ const MENU = [
   {id:"dessert", title:"Dessert", range:"", items:[["Jorda",5],["Gurer payesh",5]]},
   {id:"tea", title:"Tea", range:"", items:[["Milk tea",2.5],["Tong tea",2]]}
 ];
-const fmt = p => "$" + (Number.isInteger(p) ? p : p.toFixed(2));
-const menuEl = document.getElementById("menu"), chipsEl = document.getElementById("chips");
+const slug = s => s.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+MENU.forEach(s => s.items = s.items.map(i => ({id:s.id+"-"+slug(i[0]), name:i[0], price:i[1], sub:i[2]||""})));
+const TOTAL = MENU.reduce((n,s) => n + s.items.length, 0);
 
-menuEl.innerHTML = MENU.map(s => `
-  <section id="${s.id}" class="${s.cls||""}" data-title="${s.title.toLowerCase()}">
-    <div class="head"><h2>${s.title}</h2>${s.range?`<span class="range">${s.range}</span>`:""}</div>
-    ${s.when?`<span class="when">${s.when}</span>`:""}
-    <div class="list">${s.items.map(i => `
-      <div class="item" data-key="${(i[0]+" "+(i[2]||"")).toLowerCase()}">
-        <div class="name">${s.star?'<span class="star">★</span>':""}${i[0]}${i[2]?`<small>${i[2]}</small>`:""}</div>
-        <span class="dots"></span><span class="price">${fmt(i[1])}</span>
-      </div>`).join("")}
-    </div>
-  </section>`).join("");
-
-chipsEl.innerHTML = MENU.map(s => `<a href="#${s.id}" data-id="${s.id}">${s.title}</a>`).join("");
-
-// Highlight the category currently in view
-const chipMap = {};
-chipsEl.querySelectorAll("a").forEach(a => chipMap[a.dataset.id] = a);
-function setOn(id){
-  Object.values(chipMap).forEach(c => c.classList.remove("on"));
-  const c = chipMap[id]; if(!c) return;
-  c.classList.add("on");
-  chipsEl.scrollTo({left: c.offsetLeft - 20, behavior:"smooth"});
+/* ===== Storage (localStorage, saved in this browser only) ===== */
+const DEFAULT = {off:[], mode:"hide", note:"", updated:null};
+function load(){
+  try{ return Object.assign({}, DEFAULT, JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}); }
+  catch(e){ return Object.assign({}, DEFAULT); }
 }
-const io = new IntersectionObserver(es => {
-  es.forEach(e => { if(e.isIntersecting) setOn(e.target.id); });
-}, {rootMargin:"-120px 0px -65% 0px"});
-document.querySelectorAll("section").forEach(s => io.observe(s));
-setOn(MENU[0].id);
+function store(st){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(st)); return true; }
+  catch(e){ return false; }
+}
+let state = load();
+let offSet = new Set(state.off);
 
-// Search
-document.getElementById("q").addEventListener("input", e => {
+const app = document.getElementById("app");
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = p => "$" + (Number.isInteger(p) ? p : p.toFixed(2));
+
+app.innerHTML = `
+<div id="menuView">
+  <header>
+    <div class="mark"><span>JF</span></div>
+    <h1>JAHAN FOODS</h1>
+    <p class="bn">চট্ট মেট্রো</p>
+    <p class="tag">ঐতিহ্যবাহী বাংলাদেশী চাটগাঁইয়া মজার খাবার সম্ভার</p>
+    <span class="halal">Halal</span>
+    <div class="actions">
+      <a class="call" href="tel:+61406867607">Call 0406 867 607</a>
+      <a class="map" href="https://www.google.com/maps/search/?api=1&query=3%2F60A+The+Boulevarde+Lakemba+NSW+2195" target="_blank" rel="noopener">Get directions</a>
+    </div>
+  </header>
+  <div class="today" id="today"></div>
+  <div class="bar">
+    <div class="search"><input id="q" type="search" placeholder="Search the menu" aria-label="Search the menu" autocomplete="off"></div>
+    <nav class="chips" id="chips" aria-label="Menu categories"></nav>
+  </div>
+  <main id="menu"></main>
+  <p class="empty" id="empty" hidden>No dishes match your search.</p>
+  <footer>
+    <b>Now open in Lakemba</b>
+    All kinds of Bengali food, especially Chittagonian.<br>
+    3/60A The Boulevarde, Lakemba NSW 2195<br>
+    <a href="tel:+61406867607">0406 867 607</a>
+    <a class="staff" href="#admin">Staff login</a>
+  </footer>
+</div>
+<div id="adminView" hidden></div>`;
+
+/* ===== Customer menu ===== */
+const menuEl = $("#menu"), chipsEl = $("#chips");
+let io;
+function when(iso){
+  try{ return new Intl.DateTimeFormat("en-AU",{weekday:"short",day:"numeric",month:"short",hour:"numeric",minute:"2-digit",timeZone:"Australia/Sydney"}).format(new Date(iso)); }
+  catch(e){ return ""; }
+}
+function paintMenu(){
+  const hide = state.mode !== "soldout";
+  const secs = MENU.map(s => ({s, items: s.items.filter(i => !(hide && offSet.has(i.id)))})).filter(x => x.items.length);
+  menuEl.innerHTML = secs.map(({s, items}) => `
+    <section id="${s.id}" class="${s.cls||""}" data-title="${esc(s.title.toLowerCase())}">
+      <div class="head"><h2>${esc(s.title)}</h2>${s.range?`<span class="range">${s.range}</span>`:""}</div>
+      ${s.when?`<span class="when">${s.when}</span>`:""}
+      <div class="list">${items.map(i => {
+        const gone = offSet.has(i.id);
+        return `<div class="item${gone?" gone":""}" data-key="${esc((i.name+" "+i.sub).toLowerCase())}">
+          <div class="name">${s.star?'<span class="star">★</span>':""}${esc(i.name)}${i.sub?`<small>${esc(i.sub)}</small>`:""}</div>
+          <span class="dots"></span><span class="price">${gone?"Sold out":fmt(i.price)}</span></div>`;
+      }).join("")}</div>
+    </section>`).join("");
+  chipsEl.innerHTML = secs.map(({s}) => `<button type="button" data-id="${s.id}">${esc(s.title)}</button>`).join("");
+  $("#today").innerHTML =
+    (state.note ? `<div class="notice">${esc(state.note)}</div>` : "") +
+    (state.updated ? `<p class="upd">Menu updated ${when(state.updated)}</p>` : "");
+  $("#empty").hidden = secs.length > 0;
+  if(!secs.length) $("#empty").textContent = "The menu is being updated. Please call us on 0406 867 607.";
+  if(io) io.disconnect();
+  io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting) setOn(e.target.id); }), {rootMargin:"-120px 0px -65% 0px"});
+  menuEl.querySelectorAll("section").forEach(s => io.observe(s));
+  if(secs[0]) setOn(secs[0].s.id);
+}
+function setOn(id){
+  chipsEl.querySelectorAll("button").forEach(b => b.classList.toggle("on", b.dataset.id === id));
+  const c = chipsEl.querySelector('[data-id="' + id + '"]');
+  if(c) chipsEl.scrollTo({left: c.offsetLeft - 20, behavior:"smooth"});
+}
+chipsEl.addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  const t = document.getElementById(b.dataset.id);
+  if(t) t.scrollIntoView({behavior: matchMedia("(prefers-reduced-motion:reduce)").matches ? "auto" : "smooth", block:"start"});
+});
+$("#q").addEventListener("input", e => {
   const q = e.target.value.trim().toLowerCase();
   let any = false;
-  document.querySelectorAll("section").forEach(sec => {
-    const titleHit = !q || sec.dataset.title.includes(q);
-    let shown = 0;
-    sec.querySelectorAll(".item").forEach(it => {
-      const hit = titleHit || it.dataset.key.includes(q);
-      it.style.display = hit ? "" : "none";
-      if(hit) shown++;
-    });
-    sec.style.display = shown ? "" : "none";
-    if(shown) any = true;
+  menuEl.querySelectorAll("section").forEach(sec => {
+    const th = !q || sec.dataset.title.includes(q);
+    let n = 0;
+    sec.querySelectorAll(".item").forEach(it => { const h = th || it.dataset.key.includes(q); it.hidden = !h; if(h) n++; });
+    sec.hidden = !n; if(n) any = true;
   });
-  document.getElementById("empty").style.display = any ? "none" : "block";
+  $("#empty").textContent = "No dishes match your search.";
+  $("#empty").hidden = any;
 });
+
+/* ===== Admin (#admin) ===== */
+const adminEl = $("#adminView");
+let draft = null;
+const unlocked = () => { try{ return sessionStorage.getItem("jf-admin") === "1"; }catch(e){ return false; } };
+const same = () => draft.mode === state.mode && draft.note.trim() === (state.note||"") &&
+  draft.off.size === offSet.size && [...draft.off].every(x => offSet.has(x));
+
+function paintAdmin(){
+  if(!unlocked()){
+    adminEl.innerHTML = `<div class="lock"><h2>Staff only</h2><p>Enter the staff PIN to change today’s menu.</p>
+      <input class="fld" id="pin" type="password" inputmode="numeric" autocomplete="off" aria-label="Staff PIN" placeholder="PIN">
+      <p class="status err" id="pinerr"></p>
+      <button class="alink go" id="unlock" type="button">Unlock</button>
+      <button class="alink" id="back" type="button">Back to menu</button></div>`;
+    return;
+  }
+  draft = {off:new Set(state.off), mode:state.mode, note:state.note||""};
+  adminEl.innerHTML = `
+  <div class="atop"><h1>Today’s availability</h1>
+    <p>Switch off anything that’s finished or not cooked today, then save.</p>
+    <button class="alink" id="back" type="button">View menu</button></div>
+  <div class="amain">
+    <div class="panel">
+      <div class="count" id="count"></div>
+      <label class="t" for="note">Message for customers (optional)</label>
+      <input class="fld" id="note" maxlength="140" placeholder="e.g. Kacchhi finishes by 3pm today" value="${esc(draft.note)}">
+      <label class="t" style="margin-top:14px">When something is switched off</label>
+      <label class="radio"><input type="radio" name="mode" value="hide" ${draft.mode!=="soldout"?"checked":""}><span>Hide it from the menu</span></label>
+      <label class="radio"><input type="radio" name="mode" value="soldout" ${draft.mode==="soldout"?"checked":""}><span>Show it as sold out</span></label>
+      <div class="mini" style="margin-top:8px"><button type="button" data-all="on">Switch everything on</button></div>
+    </div>
+    ${MENU.map(s => `
+      <div class="sechead"><h2>${esc(s.title)}</h2>
+        <div class="mini"><button type="button" data-sec="${s.id}" data-v="on">All on</button><button type="button" data-sec="${s.id}" data-v="off">All off</button></div></div>
+      <div class="panel" style="padding:2px 14px">${s.items.map(i => `
+        <label class="row" data-id="${i.id}">
+          <span class="n">${esc(i.name)}<small>${fmt(i.price)}</small></span>
+          <span class="sw"><input type="checkbox" data-id="${i.id}" aria-label="${esc(i.name)} available"><i></i></span>
+        </label>`).join("")}</div>`).join("")}
+  </div>
+  <div class="sbar"><div><p class="status" id="status" role="status"></p>
+    <button class="save" id="save" type="button">Save and update menu</button></div></div>`;
+  refresh();
+}
+function refresh(){
+  $("#count").textContent = (TOTAL - draft.off.size) + " of " + TOTAL + " items available";
+  $("#save").disabled = same();
+  adminEl.querySelectorAll(".row").forEach(r => {
+    const on = !draft.off.has(r.dataset.id);
+    r.classList.toggle("off", !on);
+    r.querySelector("input").checked = on;
+  });
+}
+function say(msg, cls){ const s = $("#status"); if(!s) return; s.textContent = msg; s.className = "status " + (cls||""); }
+
+adminEl.addEventListener("change", e => {
+  const t = e.target;
+  if(t.type === "checkbox"){ t.checked ? draft.off.delete(t.dataset.id) : draft.off.add(t.dataset.id); }
+  else if(t.name === "mode"){ draft.mode = t.value; }
+  say(""); refresh();
+});
+adminEl.addEventListener("input", e => { if(e.target.id === "note"){ draft.note = e.target.value; refresh(); } });
+adminEl.addEventListener("keydown", e => { if(e.key === "Enter" && e.target.id === "pin") tryUnlock(); });
+adminEl.addEventListener("click", e => {
+  const b = e.target.closest("button"); if(!b) return;
+  if(b.id === "back"){ location.hash = ""; return; }
+  if(b.id === "unlock"){ tryUnlock(); return; }
+  if(b.dataset.all){ draft.off.clear(); say(""); refresh(); return; }
+  if(b.dataset.sec){
+    MENU.find(s => s.id === b.dataset.sec).items.forEach(i => b.dataset.v === "on" ? draft.off.delete(i.id) : draft.off.add(i.id));
+    say(""); refresh(); return;
+  }
+  if(b.id === "save") save();
+});
+function tryUnlock(){
+  if($("#pin").value === ADMIN_PIN){
+    try{ sessionStorage.setItem("jf-admin","1"); }catch(e){}
+    paintAdmin();
+  } else { $("#pinerr").textContent = "Wrong PIN. Try again."; }
+}
+function save(){
+  const next = {off:[...draft.off], mode:draft.mode, note:draft.note.trim(), updated:new Date().toISOString()};
+  if(!store(next)){ say("Couldn’t save. Your browser is blocking storage.", "err"); return; }
+  state = next; offSet = new Set(state.off);
+  paintMenu(); refresh();
+  say("Saved. The menu is updated.", "ok");
+}
+
+/* ===== Routing and sync ===== */
+function route(){
+  const admin = location.hash === "#admin";
+  $("#menuView").hidden = admin;
+  adminEl.hidden = !admin;
+  if(admin){ paintAdmin(); window.scrollTo(0,0); }
+}
+window.addEventListener("hashchange", route);
+// If the menu is open in another tab, update it when staff save
+window.addEventListener("storage", e => {
+  if(e.key === STORAGE_KEY){ state = load(); offSet = new Set(state.off); paintMenu(); }
+});
+paintMenu();
+route();
 </script>
 </body>
 </html>
