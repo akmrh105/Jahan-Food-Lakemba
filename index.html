@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jahan Foods – Menu</title>
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#f6f1e4; --card:#fffdf6; --ink:#1d2a22; --muted:#5d6b61; --line:#d9d2bd;
+  --green:#14301f; --green-ink:#f6f1e4; --gold:#e8b900; --red:#a8281c; --chip:#ebe4cf;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1a13; --card:#18271d; --ink:#f1ecdc; --muted:#a3b0a5; --line:#2e4234;
+    --green:#0a140e; --green-ink:#f1ecdc; --gold:#f2c500; --red:#ff7b6b; --chip:#223529;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1a13; --card:#18271d; --ink:#f1ecdc; --muted:#a3b0a5; --line:#2e4234;
+  --green:#0a140e; --green-ink:#f1ecdc; --gold:#f2c500; --red:#ff7b6b; --chip:#223529;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + 112px);height:auto}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Bengali","Noto Sans",sans-serif;
+  -webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--green);z-index:30}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+header{background:var(--green);color:var(--green-ink);padding:22px 18px 20px;text-align:center}
+.mark{display:inline-grid;place-items:center;width:64px;height:64px;background:var(--gold);color:#14301f;
+  transform:rotate(45deg);border-radius:8px;margin:6px 0 18px}
+.mark span{transform:rotate(-45deg);font:800 26px/1 Georgia,serif;letter-spacing:-1px}
+h1{margin:0;font:800 34px/1.05 "Arial Narrow",Impact,system-ui,sans-serif;letter-spacing:.5px}
+.bn{margin:6px 0 0;font-size:30px;font-weight:700;color:var(--gold);line-height:1.2}
+.tag{margin:8px auto 0;max-width:30ch;font-size:14px;opacity:.9}
+.halal{display:inline-block;margin-top:12px;padding:3px 12px;border:1.5px solid var(--gold);border-radius:99px;font-size:13px;font-weight:600;color:var(--gold)}
+.actions{display:flex;gap:10px;margin-top:16px}
+.actions a{flex:1;padding:12px 8px;border-radius:12px;text-decoration:none;font-weight:700;font-size:15px;text-align:center}
+.call{background:var(--gold);color:#14301f}
+.map{border:1.5px solid var(--gold);color:var(--gold)}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+.search{padding:10px 14px 6px}
+.search input{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:16px}
+.search input:focus,.chips a:focus-visible,.actions a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:6px 14px 10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;padding:7px 14px;border-radius:99px;background:var(--chip);color:var(--ink);text-decoration:none;font-size:14px;font-weight:600;white-space:nowrap}
+.chips a.on{background:var(--green);color:var(--gold)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .chips a.on{background:var(--gold);color:#14301f}}
+
+main{padding:6px 14px 40px;max-width:640px;margin:0 auto}
+section{margin-top:22px}
+.head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0 0 8px}
+h2{margin:0;font-size:22px;font-weight:800}
+.range{color:var(--red);font-weight:800;font-size:15px;white-space:nowrap}
+.note{margin:0 0 8px;font-size:13.5px;color:var(--muted)}
+.when{display:inline-block;margin:0 0 8px;padding:2px 10px;border-radius:6px;background:var(--gold);color:#14301f;font-size:13px;font-weight:700}
+.list{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 14px}
+.item{display:flex;align-items:baseline;gap:8px;padding:11px 0}
+.item+.item{border-top:1px solid var(--line)}
+.name{flex:none;max-width:68%;font-weight:600}
+.name small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.dots{flex:1;min-width:12px;border-bottom:2px dotted var(--line);transform:translateY(-4px)}
+.price{flex:none;font-weight:800;color:var(--red);font-variant-numeric:tabular-nums}
+.star{color:var(--gold);margin-right:4px}
+.sig .list{border-color:var(--gold);border-width:1.5px}
+.empty{display:none;text-align:center;color:var(--muted);padding:40px 10px}
+footer{text-align:center;padding:24px 18px 34px;background:var(--green);color:var(--green-ink);font-size:14px}
+footer b{display:block;color:var(--gold);font-size:18px;margin-bottom:4px}
+footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<header>
+  <div class="mark"><span>JF</span></div>
+  <h1>JAHAN FOODS</h1>
+  <p class="bn">চট্ট মেট্রো</p>
+  <p class="tag">ঐতিহ্যবাহী বাংলাদেশী চাটগাঁইয়া মজার খাবার সম্ভার</p>
+  <span class="halal">Halal</span>
+  <div class="actions">
+    <a class="call" href="tel:+61406867607">Call 0406 867 607</a>
+    <a class="map" href="https://www.google.com/maps/search/?api=1&query=3%2F60A+The+Boulevarde+Lakemba+NSW+2195" target="_blank" rel="noopener">Get directions</a>
+  </div>
+</header>
+
+<div class="bar">
+  <div class="search"><input id="q" type="search" placeholder="Search the menu" aria-label="Search the menu" autocomplete="off"></div>
+  <nav class="chips" id="chips" aria-label="Menu categories"></nav>
+</div>
+
+<main id="menu"></main>
+<p class="empty" id="empty">No dishes match your search.</p>
+
+<footer>
+  <b>Now open in Lakemba</b>
+  All kinds of Bengali food, especially Chittagonian.<br>
+  3/60A The Boulevarde, Lakemba NSW 2195<br>
+  <a href="tel:+61406867607">0406 867 607</a>
+</footer>
+
+<script>
+const MENU = [
+  {id:"curry", title:"Curry", range:"$8–$10", items:[
+    ["Beef curry",10],["Fish curry",10],["Chicken curry",10],["Vegetables curry",8]]},
+  {id:"bhorta", title:"Bhorta", range:"$5", items:[["Bhorta",5]]},
+  {id:"deals", title:"Deals", range:"$12", items:[
+    ["Plain rice + beef curry",12,"Plus 2 complimentary items"],
+    ["Plain rice + chicken curry",12,"Plus 2 complimentary items"],
+    ["Plain rice + fish curry",12,"Plus 2 complimentary items"],
+    ["Beef bhuna khichuri",12],["Polao with roast",12]]},
+  {id:"chef", title:"Chef signature", range:"$12–$15", star:true, cls:"sig", items:[
+    ["Morog polao",14],["Kacchhi",15],["Beef tehari",12]]},
+  {id:"special", title:"চট্ট মেট্রো special", range:"", star:true, cls:"sig", items:[
+    ["Mezbani beef",12],["Chana dal beef",12],["Beef kala bhuna",12],["Orosh biryani",14]]},
+  {id:"snacks", title:"Snacks", range:"$3–$12", when:"Available after 4pm", items:[
+    ["Dim chop",3.5],["Daal puri",3],["Small shingara plater",10],["Small peyaju (10 piece)",6],
+    ["Mughlai",12],["Chotpoti",8],["Momo",12],["Fuchka",8],["Muri makha (1 serve)",5]]},
+  {id:"pitha", title:"Pitha", range:"$3–$7", items:[
+    ["Normal chitoi",3],["Patishapta",3.5],["Dudh chitoi (1 serve)",5],["Dudh chitoi (2 serve)",7],["Bhapa pitha",4]]},
+  {id:"dessert", title:"Dessert", range:"", items:[["Jorda",5],["Gurer payesh",5]]},
+  {id:"tea", title:"Tea", range:"", items:[["Milk tea",2.5],["Tong tea",2]]}
+];
+const fmt = p => "$" + (Number.isInteger(p) ? p : p.toFixed(2));
+const menuEl = document.getElementById("menu"), chipsEl = document.getElementById("chips");
+
+menuEl.innerHTML = MENU.map(s => `
+  <section id="${s.id}" class="${s.cls||""}" data-title="${s.title.toLowerCase()}">
+    <div class="head"><h2>${s.title}</h2>${s.range?`<span class="range">${s.range}</span>`:""}</div>
+    ${s.when?`<span class="when">${s.when}</span>`:""}
+    <div class="list">${s.items.map(i => `
+      <div class="item" data-key="${(i[0]+" "+(i[2]||"")).toLowerCase()}">
+        <div class="name">${s.star?'<span class="star">★</span>':""}${i[0]}${i[2]?`<small>${i[2]}</small>`:""}</div>
+        <span class="dots"></span><span class="price">${fmt(i[1])}</span>
+      </div>`).join("")}
+    </div>
+  </section>`).join("");
+
+chipsEl.innerHTML = MENU.map(s => `<a href="#${s.id}" data-id="${s.id}">${s.title}</a>`).join("");
+
+// Highlight the category currently in view
+const chipMap = {};
+chipsEl.querySelectorAll("a").forEach(a => chipMap[a.dataset.id] = a);
+function setOn(id){
+  Object.values(chipMap).forEach(c => c.classList.remove("on"));
+  const c = chipMap[id]; if(!c) return;
+  c.classList.add("on");
+  chipsEl.scrollTo({left: c.offsetLeft - 20, behavior:"smooth"});
+}
+const io = new IntersectionObserver(es => {
+  es.forEach(e => { if(e.isIntersecting) setOn(e.target.id); });
+}, {rootMargin:"-120px 0px -65% 0px"});
+document.querySelectorAll("section").forEach(s => io.observe(s));
+setOn(MENU[0].id);
+
+// Search
+document.getElementById("q").addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  let any = false;
+  document.querySelectorAll("section").forEach(sec => {
+    const titleHit = !q || sec.dataset.title.includes(q);
+    let shown = 0;
+    sec.querySelectorAll(".item").forEach(it => {
+      const hit = titleHit || it.dataset.key.includes(q);
+      it.style.display = hit ? "" : "none";
+      if(hit) shown++;
+    });
+    sec.style.display = shown ? "" : "none";
+    if(shown) any = true;
+  });
+  document.getElementById("empty").style.display = any ? "none" : "block";
+});
+</script>
+</body>
+</html>
